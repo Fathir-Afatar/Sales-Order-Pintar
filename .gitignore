@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+.venv/
+
+#Bytecode
+__pycache__/
+
+# Database (for privacy)
+*.db
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE configs
+.vscode/
+.idea/
+
+*txt
+*csv
