@@ -78,8 +78,8 @@ def on_tree_select(event):
 
 form_produk_aktif = False
 
-def buka_form_tambah_kategori():
-    form_kategori = tk.Toplevel(window)
+def buka_form_tambah_kategori(parent):
+    form_kategori = tk.Toplevel(parent)
     form_kategori.title("Tambah Kategori")
     form_kategori.geometry("300x150")
 
@@ -106,9 +106,9 @@ def buka_form_tambah_kategori():
                 messagebox.showerror("Gagal", f"Kategori '{nama}' sudah ada atau gagal ditambahkan.")
     tk.Button(form_kategori, text="Simpan", command=simpan_kategori).pack(pady=10)
 
-def buka_form_tambah_produk():
+def buka_form_tambah_produk(parent):
     global entry_nama, entry_kode, entry_kategori, entry_merk, entry_harga_beli, entry_harga_jual, entry_stok, entry_berat
-    form_produk = tk.Toplevel(window)
+    form_produk = tk.Toplevel(parent)
     form_produk.title("Tambah Produk")
     form_produk.geometry("500x400")
     print("[INFO] Membuka form tambah produk...")
@@ -125,7 +125,7 @@ def buka_form_tambah_produk():
         kategori_list = ["(Belum Ada Kategori)"]
     entry_kategori = ttk.Combobox(form_produk, values=kategori_list, state="readonly")
     entry_kategori.set(kategori_list[0]) # Default pilihan
-    btn_tambah_kategori = tk.Button(form_produk, text="+ Tambah Kategori", command=buka_form_tambah_kategori)
+    btn_tambah_kategori = tk.Button(form_produk, text="+ Tambah Kategori", command=buka_form_tambah_kategori(form_produk))
     btn_tambah_kategori.grid(row=2, column=2, padx=(0, 10), pady=5)
 
     entry_merk = tk.Entry(form_produk)
@@ -227,7 +227,7 @@ def import_produk_excel():
 
 # Untuk Edit Produk, buka form edit, dan update produk
 
-def buka_form_edit_produk():
+def buka_form_edit_produk(parent):
     global entry_nama, entry_kode, entry_kategori, entry_merk, entry_harga_beli, entry_harga_jual, entry_stok, entry_berat, selected_id
 
     selected_item = tree.selection()
@@ -244,7 +244,7 @@ def buka_form_edit_produk():
         messagebox.showerror("Produk Tidak Ditemukan", f"Tidak ada produk dengan ID {selected_id}.")
         return
     print("[DEBUG] Tipe Produk:", type(produk))
-    form_edit = tk.Toplevel(window)
+    form_edit = tk.Toplevel(parent)
     form_edit.title("Edit Produk")
     form_edit.geometry("500x400")
     form_edit.grid_columnconfigure(0, weight=1)
@@ -390,11 +390,16 @@ def buat_frame_produk(parent):
     selected_id = None
 
     frame = tk.Frame(parent, bg="#f4f4f4")
+    frame.pack(fill="both", expand=True)
 
-    #________ Frame control atas
-
-    frame_kontrol = tk.Frame(frame, pady=10, bg="#f4f4f4")
+    frame_kontrol = tk.Frame(frame, bg="#f4f4f4")
     frame_kontrol.pack()
+
+    frame_kontrol_atas = tk.Frame(frame_kontrol, bg="#f4f4f4")
+    frame_kontrol_atas.pack()
+
+    frame_kontrol_grid = tk.Frame(frame_kontrol, bg="#f4f4f4")
+    frame_kontrol_grid.pack()
 
     # ------ Form Input ----
     frame_form = tk.Frame(frame, bg="#f4f4f4")  # Form Input produk
@@ -406,7 +411,7 @@ def buat_frame_produk(parent):
         else:
             frame_form.pack() # tampilkan form
 
-    tk.Button(frame_kontrol, text="Tambah Produk", command=buka_form_tambah_produk).grid(row=0, column=0, padx=5)
+    tk.Button(frame_kontrol_atas, text="Tambah Produk", command=lambda: buka_form_tambah_produk(frame)).pack()
 
     def create_labeled_entry(label):
         tk.Label(frame_form, text=label).pack()
@@ -428,10 +433,10 @@ def buat_frame_produk(parent):
                entry_harga_beli, entry_harga_jual, entry_stok, entry_berat]
 
     # Entry cari
-    entry_cari = tk.Entry(frame_kontrol, width=20)
+    entry_cari = tk.Entry(frame_kontrol_grid, width=20)
     entry_cari.grid(row=0, column=1, padx=5)
     # Tombol cari  --> hanya nama
-    tk.Button(frame_kontrol, text="Cari", command=cari_produk_nama).grid(row=0, column=2, padx=5)
+    tk.Button(frame_kontrol_grid, text="Cari", command=cari_produk_nama).grid(row=0, column=2, padx=5)
 
     # Filter Kategori
     frame_filter = tk.Frame(frame, bg="#f4f4f4")
@@ -444,7 +449,7 @@ def buat_frame_produk(parent):
     btn_filter = tk.Button(frame_filter, text="Terapkan Filter", command=filter_kategori_dan_nama)
     btn_filter.grid(row=0, column=4, padx=5)
 
-    tk.Button(frame_kontrol, text="Reset Filter", command=reset_filter).grid(row=0, column=5, padx=5)
+    tk.Button(frame_kontrol_grid, text="Reset Filter", command=reset_filter).grid(row=0, column=5, padx=5)
 
     # --- TreeView Produk ---
 
@@ -470,7 +475,7 @@ def buat_frame_produk(parent):
     tree.configure(xscrollcommand=scroll_x.set)
     scroll_x.pack(side="bottom", fill="x")
 
-    tk.Button(frame, text="Edit Produk", command=buka_form_edit_produk).pack(pady=2)
+    tk.Button(frame, text="Edit Produk", command=lambda: buka_form_edit_produk(frame)).pack(pady=2)
     tk.Button(frame, text="Hapus Produk", command=hapus_produk_gui).pack(pady=2)
 
     refresh_tree()
