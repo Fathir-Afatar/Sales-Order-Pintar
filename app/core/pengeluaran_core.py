@@ -1,12 +1,8 @@
 # Pengeluaran di luar sembako, pengadaan, transaksi.
 # Digunakan seperti gaji, token listrik, truk dll
 from datetime import datetime
-import sqlite3
 
-DB_PATH = "C:/Users/Fathir/Documents/pos-pintar-by-fathir/data/pos.db"
-
-def get_connection():
-    return sqlite3.connect(DB_PATH)
+from app.constants.config import get_connection
 
 def tambah_pengeluaran(nama_pengeluaran, kategori, nominal, keterangan=None):
     tanggal = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

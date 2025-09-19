@@ -4,8 +4,9 @@ import csv
 import sqlite3
 from escpos.printer import Usb
 from tkinter import ttk, messagebox, Listbox
-from app.core.penjualan_core import proses_penjualan, get_connection, get_nama_pembeli
+from app.core.penjualan_core import proses_penjualan, get_nama_pembeli
 from app.core.product_core import semua_produk
+from app.constants.config import get_connection
 from app.core.member_core import semua_member
 
 transaksi_terakhir = None

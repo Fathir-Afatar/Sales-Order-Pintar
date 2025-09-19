@@ -3,12 +3,7 @@ from datetime import datetime
 from app.core.product_core import tambah_stok, kurangi_stok
 from app.core.stok_core import catat_log_stok, get_stok_terakhir
 
-DB_PATH = "C:/Users/Fathir/Documents/pos-pintar-by-fathir/data/pos.db"
-
-
-def get_connection():
-    return sqlite3.connect(DB_PATH)
-
+from app.constants.config import get_connection
 
 def tambah_pembelian(supplier_id: str, daftar_barang:list):
     if not daftar_barang:

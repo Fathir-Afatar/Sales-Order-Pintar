@@ -1,5 +1,3 @@
-import sqlite3
-
 from app.constants.config import get_connection
 
 # Add New Member

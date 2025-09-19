@@ -1,10 +1,11 @@
-import sqlite3
+from app.constants.config import get_connection
+conn = get_connection
 
 DB_PATH = "C:/Users/Fathir/Documents/pos-pintar-by-fathir/data/pos.db"
 
 def ambil_detail_transaksi(id_transaksi, tipe):
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row # Akses kolom by name
+    conn = get_connection()
+    conn.row_factory = get_connection.Row # Akses kolom by name
 
     cursor = conn.cursor()
 
@@ -52,7 +53,7 @@ def get_detail_transaksi(id_transaksi, tipe):
         return ambil_detail_transaksi(id_transaksi, tipe)
     
 def get_ringkasan_laporan(tanggal_awal, tanggal_akhir):
-    conn = sqlite3.connect(DB_PATH)
+    conn = get_connection()
     cursor = conn.cursor()
 
     # Total Penjualan

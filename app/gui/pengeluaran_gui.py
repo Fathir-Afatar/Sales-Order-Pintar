@@ -3,7 +3,8 @@ from tkcalendar import DateEntry, Calendar
 print("Berhasil import tkcalendar!")
 from tkinter import ttk, messagebox, Toplevel, Entry, Button
 from datetime import datetime
-from app.core.pengeluaran_core import tambah_pengeluaran, semua_pengeluaran, pengeluaran_bulan_kategori, pengeluaran_per_bulan, pengeluaran_per_kategori, hapus_pengeluaran, edit_pengeluaran, get_connection
+from app.core.pengeluaran_core import tambah_pengeluaran, semua_pengeluaran, pengeluaran_bulan_kategori, pengeluaran_per_bulan, pengeluaran_per_kategori, hapus_pengeluaran, edit_pengeluaran
+from app.constants.config import get_connection
 
 def open_calendar(entry_widget):
     top = Toplevel()

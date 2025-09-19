@@ -4,14 +4,8 @@ import csv
 
 from app.core.product_core import get_harga_beli
 from app.core.stok_core import catat_log_stok, get_stok_terakhir
-
-
-DB_PATH = "C:/Users/Fathir/Documents/pos-pintar-by-fathir/data/pos.db"
-
-
-def get_connection():
-    print("[DEBUG] Membuka koneksi SQLite")
-    return sqlite3.connect(DB_PATH, timeout=10)
+from app.constants.config import get_connection
+conn = get_connection()
 
 # ── Hitung Total Penjualan ──
 def hitung_total_penjualan(daftar_barang, cursor):

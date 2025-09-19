@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from app.core.pembelian_core import tambah_pembelian, get_detail_pembelian, get_connection, get_histori_pembelian, update_pembelian
+from app.core.pembelian_core import tambah_pembelian, get_detail_pembelian, get_histori_pembelian, update_pembelian
 from app.core.supplier_core import ambil_supplier
 from app.core.product_core import ambil_daftar_produk
+from app.constants.config import get_connection
 from tkinter import simpledialog
 
 

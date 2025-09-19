@@ -1,10 +1,7 @@
 import sqlite3
 from app.constants.config import get_connection
 
-DB_PATH = "C:/Users/Fathir/Documents/pos-pintar-by-fathir/data/pos.db"
-
-def get_connection():
-    return sqlite3.connect(DB_PATH)
+conn = get_connection()
 
 # Get Produk
 
@@ -119,7 +116,7 @@ def tambah_stok(kode_produk: str, jumlah:int):
     Menambahkan stok ke produk yang sudah ada.
     """
     try:
-        conn = sqlite3.connect(DB_PATH)
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""

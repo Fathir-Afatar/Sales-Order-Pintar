@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import pandas as pd
-from app.core.product_core import tambah_produk, semua_produk,  update_produk, hapus_produk, get_connection, bersihkan_angka, get_kategori_id_by_nama, ambil_semua_kategori, ambil_produk_by_kategori_id, tambah_kategori
+from app.core.product_core import tambah_produk, semua_produk,  update_produk, hapus_produk, bersihkan_angka, get_kategori_id_by_nama, ambil_semua_kategori, ambil_produk_by_kategori_id, tambah_kategori
+from app.constants.config import get_connection
 
 def refresh_tree(kategori=None, nama_produk=None):
     print("[INFO] Memuat ulang daftar produk . . .")

@@ -1,12 +1,7 @@
-import sqlite3
 from datetime import datetime
+from app.constants.config import get_connection
 
-
-DB_PATH = "C:/Users/Fathir/Documents/pos-pintar-by-fathir/data/pos.db"
-
-def get_connection():
-    return sqlite3.connect(DB_PATH)
-
+conn = get_connection()
 
 # Get_product untuk ambil detail produk dari DB
 

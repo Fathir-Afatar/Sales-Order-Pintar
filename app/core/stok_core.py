@@ -3,12 +3,9 @@
 # Integrasi nanti ke laporan mingguan/bulanan
 from calendar import monthrange
 from datetime import datetime
-import sqlite3
+from app.constants.config import get_connection
 
-DB_PATH = "C:/Users/Fathir/Documents/pos-pintar-by-fathir/data/pos.db"
-
-def get_connection():
-    return sqlite3.connect(DB_PATH, timeout=10)
+conn = get_connection()
 
 # Note Stock Changes
 
