@@ -75,7 +75,7 @@ def tampilkan_histori(data_pengeluaran):
 
 def buat_frame_pengeluaran(parent):
     global tree
-    frame = tk.Tk()
+    frame = tk.Frame(parent, bg="#f4f4f4")
 
     # Filter
 
@@ -242,6 +242,7 @@ def buat_frame_pengeluaran(parent):
     tk.Button(frame_btn, text="Edit", command=edit_pengeluaran_gui).pack(side=tk.LEFT, padx=10)
     tk.Button(frame_btn, text="Hapus", command=hapus_pengeluaran_gui).pack(side=tk.LEFT, padx=10)
     tk.Button(frame_btn, text="Tambah", command=lambda:tambah_pengeluaran(tampilkan_histori)).pack(side=tk.LEFT, padx=10)
+    
     frame.pack(fill="both", expand=True)
 
 if __name__ == "__main__":

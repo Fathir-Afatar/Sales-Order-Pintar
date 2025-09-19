@@ -7,7 +7,7 @@ print("PYTHON PATH:", sys.path)
 
 # Setup Dasar
 def buat_frame_supplier(parent):
-    frame = tk.Tk()
+    frame = tk.Frame(parent, bg="#f4f4f4")
 
     # Frame atas: Tambah + Filter
 

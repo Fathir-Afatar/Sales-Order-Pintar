@@ -7,8 +7,11 @@ def buat_frame_stok(parent):
     frame = tk.Frame(parent)
     frame.pack(fill="both", expand=True)
 
+    notebook = ttk.Notebook(frame)
+    notebook.pack(fill="both", expand=True)
+
     tab_stok = ttk.Frame(frame)
-    frame.add(tab_stok, text="Stok")
+    notebook.add(tab_stok, text="Stok")
 
     daftar_nama_barang = get_daftar_nama_barang()
     daftar_bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
@@ -74,7 +77,7 @@ def buat_frame_stok(parent):
     tree_ringkasan = ttk.Treeview(tab_stok, columns=("Kode", "Nama Produk", "Stok Akhir"), show="headings")
     for col in ("Kode", "Nama Produk", "Stok Akhir"):
         tree_ringkasan.heading(col, text=col)
-        tree_ringkasan.column(col, text=col)
+        tree_ringkasan.column(col, anchor="w", stretch=True)
     tree_ringkasan.pack(fill="both", expand=True)
 
     def tampilkan_ringkasan():

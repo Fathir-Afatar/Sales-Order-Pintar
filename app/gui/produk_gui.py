@@ -10,7 +10,7 @@ def refresh_tree(kategori=None, nama_produk=None):
         tree.delete(item)
 
     for p in semua_produk():
-        print("[DEBUG] Produk:", p["nama_produk"], " | Kategori:", p["nama_kategori"])
+        print("[DEBUG] Produk:", p.get("nama_produk"), " | Kategori:", p.get("nama_kategori", "Kategori tidak tersedia"))
 
         # Filter Kategori
 
@@ -473,7 +473,7 @@ def buat_frame_produk(parent):
     tk.Button(frame, text="Hapus Produk", command=hapus_produk_gui).pack(pady=2)
 
     refresh_tree()
-    window.mainloop()
+    frame.pack(fill="both", expand=True)
 
 if __name__ == "__main__":
     buat_frame_produk()
