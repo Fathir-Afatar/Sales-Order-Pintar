@@ -44,13 +44,19 @@ def tambah_pembelian(supplier_id: str, daftar_barang:list):
             # Ambil stok sebelum update
             stok_awal = get_stok_terakhir(item["kode_produk"])
             stok_akhir = stok_awal + item["qty"]
-
             cursor.execute("""
                 UPDATE produk SET stok = stok + ? WHERE kode_produk = ?
             """, (item["qty"], item["kode_produk"]))
 
-            # Catat log stok
-            catat_log_stok(item["kode_produk"], stok_awal, stok_akhir, "MASUK")
+            # Query ambil produk_id berdasarkan kode_produk
+            cursor.execute("SELECT id_produk FROM produk WHERE kode_produk = ?", (item["kode_produk"],))
+            result = cursor.fetchone()
+            if result:
+                produk_id = result[0]
+                catat_log_stok(cursor, produk_id, stok_awal, stok_akhir, "MASUK")
+            else:
+                print(f"[ERROR] Produk dengan kode'{item['kode_produk']}' tidak ditemukan.")
+
         conn.commit()
         print(f"[INFO] Pembelian berhasil disimpan. ID: {pembelian_id}")
         return pembelian_id
