@@ -70,78 +70,74 @@ def tambah_member_gui():
 
 
 def on_tree_select(event):
-    global selected_id, entry_map
+    global selected_id
     selected_id = tree.focus()
-    values = tree.item(tree.focus())["values"]
+    values = tree.item(selected_id)["values"]
     print("[DEBUG] values", values)
     print("[DEBUG] len values", len(values))
-    
+
     if not selected_id:
         print("[DEBUG] Tidak ada baris yang dipilih")
         return
 
     column_order = ["kode_member", "nama", "no_hp", "alamat", "tipe", "ranting"]
-    entry_map = {
-        "kode_member": entry_kode_member,
-        "nama": entry_nama,
-        "no_hp": entry_nomor,
-        "alamat": entry_alamat,
-        "tipe": entry_tipe,
-        "ranting": entry_ranting
-    }
 
     for i, col in enumerate(column_order):
-        if i < len(values):
+        if col in entry_map:
             entry_map[col].delete(0, tk.END)
-            entry_map[col].insert(0, values[i])
-        else:
-            entry_map[col].delete(0, tk.END)
+            if i < len(values):
+                entry_map[col].insert(0, values[i])
 
     print("[DEBUG]",selected_id)
+    print("[DEBUG] entry_map keys:", entry_map.keys())
 
-def edit_member_gui():
-    global selected_id
-    selected_id = tree.focus()
-
-    if not selected_id:
-        selected_id = tree.focus()
+def edit_member_gui(parent):
+    selected_item = tree.focus()
+    if not selected_item:
         messagebox.showwarning("Pilih Member yang ingin diedit.")
         return
     values = tree.item(selected_id)["values"]
+    if not values or len(values) < 6:
+        print("[DEBUG] Tidak ada data valid.")
+        return
 
-    # Buat jendela baru
+    popup = tk.Toplevel(parent)
+    popup.title("EDIT Member")
+    popup.geometry("400x400")
 
-    edit_window = tk.Toplevel(window)
-    edit_window.title("Edit Member")
-    edit_window.geometry("400x400")
-
-    # Entry Labels and Fields
-
-    labels = ["Kode Member", "Nama", "Nomor HP", "Alamat", "Tipe Member", "Ranting"]
-    entry_fields = []
-
-    for i, label in enumerate(labels):
-        tk.Label(edit_window, text=label).pack()
-        e = tk.Entry(edit_window)
-        e.insert(0, values[i])
-        e.pack(pady=2)
-        entry_fields.append(e)
+    def create_entry(label, value):
+        tk.Label(popup, text=label).pack(anchor='w')
+        entry = tk.Entry(popup)
+        entry.insert(0, value)
+        entry.pack(fill='x')
+        return entry
+    
+    entry_kode_member = create_entry("Kode Member", values[0])
+    entry_nama = create_entry("Nama", values[1])
+    entry_nomor = create_entry("Nomor HP", values[2])
+    entry_alamat = create_entry("Alamat", values[3])
+    entry_tipe = create_entry("Tipe Member", values[4])
+    entry_ranting = create_entry("Ranting", values[5])
 
     def simpan_perubahan():
         try:
-            update_member(selected_id,
-                          entry_fields[1].get(), entry_fields[2].get(),
-                          entry_fields[3].get(), entry_fields[4].get(),
-                          entry_fields[5].get(), entry_fields[0].get())
+            update_member(selected_item,
+                          entry_nama.get(),
+                          entry_nomor.get(),
+                          entry_alamat.get(),
+                          entry_tipe.get(),
+                          entry_ranting.get(),
+                          entry_kode_member.get()
+            )
             messagebox.showinfo("Edit Sukses", "Data Member Berhasil diperbarui.")
             refresh_tree()
-            edit_window.destroy()
+            popup.destroy()
         except Exception as e:
             messagebox.showerror("Error", str(e))
     # Tombol di jendela edit
 
-    tk.Button(edit_window, text="Simpan Perubahan", command=simpan_perubahan).pack(pady=5)
-    tk.Button(edit_window, text="Batal", command=edit_window).pack()
+    tk.Button(popup, text="Simpan Perubahan", command=simpan_perubahan).pack(pady=5)
+    tk.Button(popup, text="Batal", command=popup.destroy).pack()
 
 
 def hapus_member_gui():
@@ -159,10 +155,10 @@ def hapus_member_gui():
             messagebox.showerror("Gagal Hapus", str(e))
 
 def buat_frame_member(parent):
-    global window, entry_nama, entry_nomor, entry_alamat, entry_tipe, entry_ranting 
+    global window, entry_map, entry_nama, entry_nomor, entry_alamat, entry_tipe, entry_ranting 
     global tree, entries, selected_id, entry_kode_member
     global entry_search, combo_tipe, combo_ranting
-    
+    entry_map = {}
     selected_id = None
     frame = tk.Frame(parent, bg="#f4f4f4")
 
@@ -287,7 +283,7 @@ def buat_frame_member(parent):
     frame_footer = tk.Frame(frame, bg="#f4f4f4")
     frame_footer.pack(pady=10)
 
-    tk.Button(frame_footer, text="Edit Member", command=edit_member_gui).pack(side=tk.LEFT, padx=8)
+    tk.Button(frame_footer, text="Edit Member", command=lambda: edit_member_gui(frame)).pack(side=tk.LEFT, padx=8)
     tk.Button(frame_footer, text="Hapus Member", command=hapus_member_gui).pack(side=tk.LEFT, padx=8)
     
     refresh_tree()
